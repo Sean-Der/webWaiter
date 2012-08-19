@@ -34,12 +34,15 @@ void fullfillRequestType(int *clientSock, char *HTTPHeaders, char *response)
 	DIR *dp;	
 	char *requestValue, requestedFile[BUFFERSIZE] = "\0", requestedIndex[BUFFERSIZE] = "\0";
 	if ((requestValue = strstr(HTTPHeaders, "GET")) != NULL){
-		//Since we have found what we want we can free the HTTP Headers	
-			
-		//We start at 4 to consume "GET" , also note the ascii value of SPACE is 32
+		//We start at 4 to consume "GET " , also note the ascii value of ' ' is 32
 		for(int i = 4; requestValue[i] != 32; i++){	
-			requestedFile[strlen(requestedFile)] = requestValue[i];
-		}
+			//If chroot is disabled we still want to make it respect our srvRoot
+      if(!doChroot && i == 4 && requestValue[i] == 47){
+        strcpy(requestedFile, srvRoot);
+      } else {
+        requestedFile[strlen(requestedFile)] = requestValue[i];
+      }
+          }
 		requestedFile[strlen(requestedFile)+1] = '\0';	
 		strcpy(requestedIndex, requestedFile);
 		

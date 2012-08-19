@@ -23,7 +23,7 @@ void chrootSrvRoot(void)
 		debug(debugString, 1);	
 	}
      	if (chroot(srvRoot) != 0) {
-       		sprintf(debugString,"%s%s\n", "Error chrooting srvRoot", strerror(errno));
+       		sprintf(debugString,"%s%s\n", "Error chrooting srvRoot ", strerror(errno));
 		debug(debugString, 1);
 	}
 }

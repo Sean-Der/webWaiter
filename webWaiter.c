@@ -26,8 +26,10 @@ void *serveRequest(void *param)
 int main(void)
 {
 	debug("webWaiter was compiled with verbose debugging enabled\n", 0);	
-	chrootSrvRoot();	
-	bindSocket();
+  #if doChroot
+  chrootSrvRoot();	
+  #endif
+  bindSocket();
 	listenSocket();
 	acceptRequests();
 	return 0;
